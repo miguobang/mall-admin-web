@@ -1,11 +1,11 @@
 <template> 
-  <user-detail :isEdit="false"></user-detail>
+  <user-add :isEdit="false"></user-add>
 </template>
 <script>
-  import UserDetail from './components/UserDetail'
+  import UserAdd from './components/UserAdd'
   export default {
     name: 'addUser',
-    components: { UserDetail }
+    components: { UserAdd }
   }
 </script>
 <style></style>

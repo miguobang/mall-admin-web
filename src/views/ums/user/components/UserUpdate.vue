@@ -5,12 +5,15 @@
              ref="userFrom"
              label-width="150px"
              size="small">
+
       <el-form-item label="用户名：" prop="username">
         <el-input v-model="user.username" class="input-width"></el-input>
       </el-form-item>
+
       <el-form-item label="头像：">
         <single-upload v-model="user.icon"></single-upload>
       </el-form-item>
+
       <el-form-item label="邮箱：" prop="email">
         <el-input v-model="user.email" class="input-width"></el-input>
       </el-form-item>
@@ -42,16 +45,7 @@
 <script>
   import SingleUpload from '@/components/Upload/singleUpload'
   import {createUser, getUser, updateUser} from '@/api/user'
-  const defaultUser = {
-    username: null,
-    password:null,
-    repassword:null,
-    icon: null,
-    email: null,
-    nickName: null,
-    status: 1,
-    note: null,
-  };
+
   export default {
     name: 'UserDetail',
     components:{SingleUpload},
@@ -88,12 +82,10 @@
         }, 1000)
       };
       return {
-        user: null,
-        email:"",
-        repassword:"",
+        user:null,
         rules: {
           email:[{required:true,validator:validateEmail,trigger:'blur'}],
-          username:[{required:true,message:"用户名不能为空!",trigger:"blur"}],
+          userame:[{required:true,message:"用户名不能为空!",trigger:"blur"}],
           password:[{required:true,message:"密码不能为空!",trigger:"blur"}],
           repassword:[{required:true,validator:validatePass, trigger:"blur"}],
           nickName:[{required:true,message:"昵称不能为空!",trigger:"blur"}]
@@ -101,13 +93,9 @@
       }
     },
     created(){
-      if (this.isEdit) {
         getUser(this.$route.query.id).then(response => {
           this.user = response.data;
         });
-      }else{
-        this.user = Object.assign({},defaultUser);
-      }
     },
     methods: {
       onSubmit(formName) {
@@ -118,7 +106,6 @@
               cancelButtonText: '取消',
               type: 'warning'
             }).then(() => {
-              if (this.isEdit) {
                 updateUser(this.$route.query.id, this.user).then(response => {
                   this.$refs[formName].resetFields();
                   this.$message({
@@ -128,18 +115,6 @@
                   });
                   this.$router.back();
                 });
-              } else {
-                createUser(this.user).then(response => {
-                  this.$refs[formName].resetFields();
-                  this.user = Object.assign({},defaultUser);
-                  this.$message({
-                    message: '提交成功',
-                    type: 'success',
-                    duration:1000
-                  });
-                  this.$router.back();
-                });
-              }
             });
 
           } else {
@@ -154,7 +129,6 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
-        this.user = Object.assign({},defaultUser);
       }
     }
   }

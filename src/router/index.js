@@ -37,13 +37,13 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/ums/user',
     name: 'user',
-    meta: {title: '用户', icon: 'sms-hot'},
+    meta: {title: '系统管理', icon: 'sms-hot'},
     children: [
       {
         path: 'user',
         name: 'user',
         component: () => import('@/views/ums/user/index'),
-        meta: {title: '用户列表', icon: 'sms-hot'}
+        meta: {title: '用户管理', icon: 'sms-hot'}
       },
       {
         path: 'addUser',
@@ -66,7 +66,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/pms/product',
     name: 'pms',
-    meta: {title: '商品', icon: 'product'},
+    meta: {title: '商品管理', icon: 'product'},
     children: [{
       path: 'product',
       name: 'product',
@@ -174,7 +174,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/oms/order',
     name: 'oms',
-    meta: {title: '订单', icon: 'order'},
+    meta: {title: '订单管理', icon: 'order'},
     children: [
       {
         path: 'order',
@@ -228,7 +228,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/sms/coupon',
     name: 'sms',
-    meta: {title: '营销', icon: 'sms'},
+    meta: {title: '营销管理', icon: 'sms'},
     children: [
       {
         path: 'flash',

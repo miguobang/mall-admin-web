@@ -8,11 +8,11 @@
       <el-form-item label="用户名：" prop="username">
         <el-input v-model="user.username" class="input-width"></el-input>
       </el-form-item>
-      <el-form-item label="密码：" prop="password" >
-        <el-input v-model="user.password" type="password" class="input-width"></el-input>
+      <el-form-item label="密码：" prop="password">
+        <el-input v-model="user.password" class="input-width"></el-input>
       </el-form-item>
-      <el-form-item label="确认密码：" prop="repassword" >
-        <el-input v-model="user.repassword"  type="password" class="input-width"></el-input>
+      <el-form-item label="确认密码：" prop="repassword">
+        <el-input v-model="user.repassword" class="input-width"></el-input>
       </el-form-item>
       <el-form-item label="头像：">
         <single-upload v-model="user.icon"></single-upload>
@@ -48,10 +48,11 @@
 <script>
   import SingleUpload from '@/components/Upload/singleUpload'
   import {createUser, getUser, updateUser} from '@/api/user'
+
   const defaultUser = {
     username: null,
-    password:null,
-    repassword:null,
+    password: null,
+    repassword: null,
     icon: null,
     email: null,
     nickName: null,
@@ -60,7 +61,7 @@
   };
   export default {
     name: 'UserDetail',
-    components:{SingleUpload},
+    components: {SingleUpload},
     props: {
       isEdit: {
         type: Boolean,
@@ -79,51 +80,53 @@
           } else {
             callback()
           }
-        }, 1000)
+        }, 300)
       };
+
+
 
       var validatePass = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('密码不能为空!!'))
         }
-        if (value.length < 6) {
-          return callback(new Error('密码长度至少6位!!'))
-        }
+        else
+          {
+            return callback();
+          }
       };
-
-
       var validateRePass = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('确认密码不能为空!!'))
         }
         setTimeout(() => {
-          if (value!==this.user.password) {
+          if (value !== this.user.password) {
             callback(new Error('两次密码不一致!!'))
           } else {
             callback()
           }
-        }, 1000);
+        }, 300)
       };
       return {
         user: null,
-        email:"",
-        repassword:"",
+        email: "",
+        repassword: "",
         rules: {
-          email:[{required:true,validator:validateEmail,trigger:'blur'}],
-          username:[{required:true,message:"用户名不能为空!",trigger:"blur"}],
-          password:[{required:true,validator:validatePass, trigger:"blur"}],
-          repassword:[{required:true,validator:validateRePass, trigger:"blur"}],
-          nickName:[{required:true,message:"昵称不能为空!",trigger:"blur"}]
+          email: [{required: true, validator: validateEmail, trigger: 'blur'}],
+          username: [{required: true, message: "用户名不能为空!", trigger: "blur"}],
+          password: [{required: true, validator: validatePass, trigger: "blur"}],
+          repassword: [{required: true, validator: validateRePass, trigger: "submit"},
+                       {required: true, validator: validateRePass, trigger: "blur"}],
+          nickName: [{required: true, message: "昵称不能为空!", trigger: "blur"}]
         }
       }
     },
-    created(){
+    created() {
       if (this.isEdit) {
         getUser(this.$route.query.id).then(response => {
           this.user = response.data;
         });
-      }else{
-        this.user = Object.assign({},defaultUser);
+      } else {
+        this.user = Object.assign({}, defaultUser);
       }
     },
     methods: {
@@ -141,18 +144,18 @@
                   this.$message({
                     message: '修改成功',
                     type: 'success',
-                    duration:1000
+                    duration: 1000
                   });
                   this.$router.back();
                 });
               } else {
                 createUser(this.user).then(response => {
                   this.$refs[formName].resetFields();
-                  this.user = Object.assign({},defaultUser);
+                  this.user = Object.assign({}, defaultUser);
                   this.$message({
                     message: '提交成功',
                     type: 'success',
-                    duration:1000
+                    duration: 1000
                   });
                   this.$router.back();
                 });
@@ -163,7 +166,7 @@
             this.$message({
               message: '验证失败',
               type: 'error',
-              duration:1000
+              duration: 1000
             });
             return false;
           }
@@ -171,7 +174,7 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
-        this.user = Object.assign({},defaultUser);
+        this.user = Object.assign({}, defaultUser);
       }
     }
   }
